@@ -1,0 +1,130 @@
+﻿@page "/BingoGame"
+@page "/BingoGame/{PassCode}/{NumberOfCards:int}"
+@using BlinkoBlanko.Bingo
+@inject IJSRuntime JsRuntime
+
+<PageTitle>BingoGame</PageTitle>
+
+<div class="">
+    <div class="row ">
+        <div class="col-6">
+            <table class="table table-bordered table-fixed">
+                <thead>
+                </thead>
+                <tbody>
+                    @for (int i = 0; i < 9; i++)
+                    {
+                        <tr>
+                            @for (int j = 0; j < 10; j++)
+                            {
+                                <td style="">
+                                    <h1 class="text-center @(Game.Numbers[i*10+j].IsDrawn ? "numberIsDrawn" : "numberIsNotDrawn")">
+                                        @(Game.Numbers[i*10+j].Number)
+                                    </h1>
+                                </td>
+                            }
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="col-6" style="text-align:center;">
+
+            @if (Game.DrawnNumbers.Count > 0)
+            {
+                <h1 class="lastDrawnNumber">@Game.DrawnNumbers.LastOrDefault()</h1>
+                <span>Last 5 numbers:</span>
+                <h3>
+                    @for (int i = 2; i <= 6; i++)
+                    {
+                        @if (Game.DrawnNumbers.Count >= i)
+                        {
+                            <span>@Game.DrawnNumbers[Game.DrawnNumbers.Count - i], </span>
+                        }
+                    }
+                </h3>
+            }
+            else
+            {
+                <h1> </h1>
+                <span>Last 5 numbers:</span>
+                <h3> </h3>
+            }
+        </div>
+    </div>
+    <div class="row ">
+        <div class="col-6">
+            <div class="input-group mb-3">
+                <input id="FieldPlateNumber" type="number" class="form-control" placeholder="Card number" @bind="checkBingoCardNumber" />
+                <div class="input-group-append">
+                    <button class="btn btn-primary" @onclick="CheckCard">Check</button>
+                    <button class="btn btn-secondary" @onclick="ClearCard">Clear</button>
+                </div>
+            </div>
+            <BingoCard Plate=@checkBingoPlate />
+        </div>
+        <div class="col-6 operationsPanel">
+            <button class="btn btn-primary" @onclick="DrawNumber">Draw Number</button>
+            <button class="btn btn-secondary" @onclick="ResetGame">Reset Game</button>
+        </div>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public int? NumberOfCards { get; set; } = 50;
+
+    [Parameter]
+    public string? PassCode { get; set; } = "1234";
+
+    private BingoGame Game = new BingoGame();
+
+    private int? checkBingoCardNumber = null;
+    private BingoPlate? checkBingoPlate = null;
+
+
+    protected override void OnInitialized()
+    {
+        Game.Initialize(PassCode, NumberOfCards);
+    }
+
+    private void DrawNumber()
+    {
+        Game.Draw();
+
+        UpdateCheckCard();
+    }
+    private async void ResetGame()
+    {
+        bool confirmed = await JsRuntime.InvokeAsync<bool>("confirm", "Are you sure you want to reset the game?");
+        if (confirmed)
+        {
+            Game.Reset();
+        }
+    }
+    private void CheckCard()
+    {
+        if (checkBingoCardNumber.HasValue)
+        {
+            checkBingoPlate = Game.GetPlateByNumber(checkBingoCardNumber.Value);
+        }
+        else
+        {
+            checkBingoPlate = null;
+        }
+    }
+
+    private void UpdateCheckCard()
+    {
+        if (checkBingoPlate != null)
+        {
+            checkBingoPlate.MarkDrawnNumbers(Game.DrawnNumbers);
+        }
+    }
+    private void ClearCard()
+    {
+        checkBingoPlate = null;
+        checkBingoCardNumber = null;
+    }
+
+}

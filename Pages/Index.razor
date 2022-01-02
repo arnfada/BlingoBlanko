@@ -1,0 +1,35 @@
+﻿@page "/"
+@inject NavigationManager NavManager
+
+<PageTitle>Index</PageTitle>
+
+<h1>A Bingo / Banko web app</h1>
+
+<p>
+    Welcome to the web app for creating bingo / banko cards and hosting a online bingo event. Start by creating bingo cards by selecting a unique pass code. This pass code can be used to host a bingo game and have bingo cards automatically validated.
+</p>
+
+<!-- Form for creating bingo cards -->
+<form>
+    <div class=" mb-3">
+        <label for="FieldPassCode" class="form-label">Bingo Passcode:</label>
+        <input id="FieldPassCode" type="text" class="form-control" placeholder="PassCode" @bind="BingoPassCode" />
+    </div>
+    <div class=" mb-3">
+        <label for="FieldNumberCards" class="form-label">NumberOfCards</label>
+        <input id="FieldNumberCards" type="number" class="form-control" placeholder="No. of cards" @bind="NumberOfCards" />
+    </div>
+    <div class=" mb-3">
+        <a class="btn btn-primary" href="BingoCards/@BingoPassCode/@NumberOfCards">Create bingo cards</a>
+    </div>
+    <div class=" mb-3">
+        <a class="btn btn-primary" href="BingoGame/@BingoPassCode/@NumberOfCards">Host a bingo game</a>
+    </div>
+</form>
+
+@*<SurveyPrompt Title="How is Blazor working for you?" />*@
+
+@code {
+    private string BingoPassCode { get; set; } = "ABCD";
+    private int NumberOfCards { get; set; } = 10;
+}

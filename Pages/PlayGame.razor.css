@@ -1,0 +1,16 @@
+﻿body {
+}
+
+.numberIsNotDrawn {
+    opacity: 0.15;
+}
+
+.lastDrawnNumber {
+    font-size: 20rem;
+}
+
+.operationsPanel {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-evenly;
+}

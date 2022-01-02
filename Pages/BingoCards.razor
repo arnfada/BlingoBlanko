@@ -1,0 +1,33 @@
+﻿@page "/BingoCards"
+@page "/BingoCards/{PassCode}/{NumberOfCards:int}"
+@using BlinkoBlanko.Bingo
+@inject HttpClient Http
+
+<PageTitle>Bingo cards</PageTitle>
+
+<h1>Bingo cards:</h1>
+
+
+@foreach (BingoPlate plate in BingoPlates.Plates)
+{
+    <BingoCard Plate=@plate />
+}
+
+@code {
+    [Parameter]
+    public int? NumberOfCards { get; set; } = 50;
+
+    [Parameter]
+    public string? PassCode { get; set; } = "1234";
+
+    private BingoPlates BingoPlates = new BingoPlates();
+
+    protected override void OnInitialized()
+    {
+        BingoPlates.Generate(PassCode, NumberOfCards);
+    }
+
+    //protected override async Task OnInitializedAsync()
+        //{
+    //}
+}

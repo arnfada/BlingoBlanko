@@ -1,0 +1,32 @@
+﻿@using BlinkoBlanko.Bingo
+@if (Plate != null)
+{
+    <table class="table table-bordered table-fixed">
+        <thead>
+        </thead>
+        <tbody>
+            @foreach (var row in Plate.Numbers)
+            {
+                <tr>
+                    @foreach (var column in row)
+                    {
+                        <td style="width: 11.11%" class="@((column?.IsDrawn ?? false) ? "cardNumberDrawn" : "")">
+                            <h1 class="text-center">
+                                @(column?.Number.ToString() ?? string.Empty)
+                            </h1>
+                        </td>
+                    }
+                </tr>
+            }
+        </tbody>
+    </table>
+    <span class="justify-content-end">Bingo card #@Plate.PlateNumber</span>
+    <br />
+    <br />
+}
+@code {
+
+    [Parameter]
+    public BingoPlate? Plate { get; set; }
+
+}
