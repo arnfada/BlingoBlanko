@@ -19,7 +19,7 @@
             random = new Random();
         }
 
-        public void Initialize(string passCode, int? numberOfCards)
+        public void Initialize(string? passCode, int? numberOfCards)
         {
             BingoPlates.Generate(passCode, numberOfCards);
 
