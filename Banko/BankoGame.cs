@@ -1,19 +1,23 @@
-﻿namespace BlinkoBlanko.Bingo
+﻿using BlinkoBlanko.Common;
+
+namespace BlinkoBlanko.Banko
 {
-    public class BingoGame
+    public class BankoGame
     {
         private Random random;
-        public BingoPlates BingoPlates { get; private set; }
 
-        public List<BingoPlateNumber> Numbers { get; private set; }
+        public BankoPlates BingoPlates { get; private set; }
 
-        private List<int> AvailableNumbers { get; set; }
-        public List<int> DrawnNumbers { get; set; }
+        public List<PlateNumber> Numbers { get; private set; }
 
-        public BingoGame()
+        public List<int> AvailableNumbers { get; private set; }
+
+        public List<int> DrawnNumbers { get; private set; }
+
+        public BankoGame()
         {
-            BingoPlates = new BingoPlates();
-            Numbers = new List<BingoPlateNumber>();
+            BingoPlates = new BankoPlates();
+            Numbers = new List<PlateNumber>();
             AvailableNumbers = new List<int>();
             DrawnNumbers = new List<int>();
             random = new Random();
@@ -37,7 +41,7 @@
             for (int i = 1; i <= 90; i++)
             {
                 AvailableNumbers.Add(i);
-                Numbers.Add(new BingoPlateNumber(i));
+                Numbers.Add(new PlateNumber(i));
             }
         }
 
@@ -56,9 +60,9 @@
             DrawnNumbers.Add(drawnNumber);
         }
 
-        public BingoPlate? GetPlateByNumber(int plateNumber)
+        public BankoPlate? GetPlateByNumber(int plateNumber)
         {
-            BingoPlate? bingoPlate = BingoPlates.Plates.FirstOrDefault(p => p.PlateNumber == plateNumber);
+            BankoPlate? bingoPlate = BingoPlates.Plates.FirstOrDefault(p => p.PlateNumber == plateNumber);
 
             if (bingoPlate == null)
             {

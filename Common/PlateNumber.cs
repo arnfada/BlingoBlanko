@@ -1,8 +1,8 @@
-﻿namespace BlinkoBlanko.Bingo
+﻿namespace BlinkoBlanko.Common
 {
-    public class BingoPlateNumber
+    public class PlateNumber
     {
-        public BingoPlateNumber(int number)
+        public PlateNumber(int number)
         {
             Number = number;
         }

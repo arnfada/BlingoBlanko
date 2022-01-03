@@ -1,15 +1,19 @@
-﻿namespace BlinkoBlanko.Bingo
-{
-    public class BingoPlate
-    {
+﻿using BlinkoBlanko.Common;
 
-        public List<List<BingoPlateNumber?>> Numbers { get; set; } = new List<List<BingoPlateNumber?>>();
+namespace BlinkoBlanko.Banko
+{
+    public class BankoPlate
+    {
+        private int randomSeed = 0;
+
+        public List<List<PlateNumber?>> Numbers { get; set; } = new List<List<PlateNumber?>>();
 
         public int PlateNumber { get; set; }
 
-        public BingoPlate(int plateNumber)
+        public BankoPlate(int plateNumber, int seedNumber)
         {
             PlateNumber = plateNumber;
+            randomSeed = seedNumber + plateNumber;
             ClearNumbers();
         }
 
@@ -18,16 +22,16 @@
             Numbers.Clear();
             for (int i = 0; i < 3; i++)
             {
-                Numbers.Add(new List<BingoPlateNumber?>());
+                Numbers.Add(new List<PlateNumber?>());
                 for (int j = 0; j < 9; j++)
                 {
                     Numbers[i].Add(null);
                 }
             }
         }
-        public void Create(int seed)
+        public void Create()
         {
-            Random random = new Random(seed + PlateNumber);
+            Random random = new Random(randomSeed);
             List<List<int>> randomNumbers = new List<List<int>>();
 
             // Start by adding numbers into each column,
@@ -64,7 +68,7 @@
                 for (int i = 0; i < 3; i++)
                 {
                     int number = fullList.Min();
-                    Numbers[i][column] = new BingoPlateNumber(number);
+                    Numbers[i][column] = new PlateNumber(number);
                     fullList.Remove(number);
 
                 }
@@ -88,7 +92,7 @@
                         continue;
                     }
                     int number = randomNumbers[column].Min();
-                    Numbers[row][column] = new BingoPlateNumber(number);
+                    Numbers[row][column] = new PlateNumber(number);
                     randomNumbers[column].Remove(number);
                 }
             }
@@ -101,7 +105,7 @@
                     continue;
                 }
                 int column = (remainingList[0] - 1) / 10;
-                Numbers[2][column] = new BingoPlateNumber(remainingList[0]);
+                Numbers[2][column] = new PlateNumber(remainingList[0]);
             }
         }
 

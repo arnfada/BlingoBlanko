@@ -20,14 +20,13 @@
         <input id="FieldNumberCards" type="number" class="form-control" placeholder="No. of cards" @bind="NumberOfCards" />
     </div>
     <div class=" mb-3">
-        <a class="btn btn-primary" href="BingoCards/@BingoPassCode/@NumberOfCards">Create bingo cards</a>
+        <a class="btn btn-primary" href="BankoCards/@BingoPassCode/@NumberOfCards">Create bingo cards</a>
     </div>
     <div class=" mb-3">
-        <a class="btn btn-primary" href="BingoGame/@BingoPassCode/@NumberOfCards">Host a bingo game</a>
+        <a class="btn btn-primary" href="BankoGame/@BingoPassCode/@NumberOfCards">Host a bingo game</a>
     </div>
 </form>
 
-@*<SurveyPrompt Title="How is Blazor working for you?" />*@
 
 @code {
     private string BingoPassCode { get; set; } = "ABCD";

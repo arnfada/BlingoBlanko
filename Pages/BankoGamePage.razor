@@ -1,6 +1,6 @@
-﻿@page "/BingoGame"
-@page "/BingoGame/{PassCode}/{NumberOfCards:int}"
-@using BlinkoBlanko.Bingo
+﻿@page "/BankoGame"
+@page "/BankoGame/{PassCode}/{NumberOfCards:int}"
+@using BlinkoBlanko.Banko
 @inject IJSRuntime JsRuntime
 
 <PageTitle>BingoGame</PageTitle>
@@ -61,7 +61,7 @@
                     <button class="btn btn-secondary" @onclick="ClearCard">Clear</button>
                 </div>
             </div>
-            <BingoCard Plate=@checkBingoPlate />
+            <BankoCard Plate=@checkBingoPlate />
         </div>
         <div class="col-6 operationsPanel">
             <button class="btn btn-primary" @onclick="DrawNumber">Draw Number</button>
@@ -77,10 +77,10 @@
     [Parameter]
     public string? PassCode { get; set; } = "1234";
 
-    private BingoGame Game = new BingoGame();
+    private BankoGame Game = new BankoGame();
 
     private int? checkBingoCardNumber = null;
-    private BingoPlate? checkBingoPlate = null;
+    private BankoPlate? checkBingoPlate = null;
 
 
     protected override void OnInitialized()
