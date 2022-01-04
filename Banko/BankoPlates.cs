@@ -26,6 +26,12 @@
         /// <param name="numberOfPlates">number of plates to generate</param>
         public void Generate(string? passCode, int? numberOfPlates)
         {
+            // Limit the amount of plates to 1000.
+            if (numberOfPlates.HasValue && numberOfPlates > 1000)
+            {
+                numberOfPlates = 1000;
+            }
+
             Plates.Clear();
             for (int i = 1; i <= (numberOfPlates ?? 50); i++)
             {
