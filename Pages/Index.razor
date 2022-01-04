@@ -1,4 +1,5 @@
 ﻿@page "/"
+@using BlinkoBlanko.Banko
 @inject NavigationManager NavManager
 
 <PageTitle>Index</PageTitle>
@@ -9,8 +10,13 @@
     Welcome to the web app for creating bingo / banko cards and hosting a online bingo event. Start by creating bingo cards by selecting a unique pass code. This pass code can be used to host a bingo game and have bingo cards automatically validated.
 </p>
 
-<!-- Form for creating bingo cards -->
-<form>
+<!-- Form for creating banko cards -->
+<form class="bankoForm rounded-3 shadow">
+    <h2>Banko (90-ball bingo)</h2>
+    <span>Banko is the European version of Bingo using numbers from 1 to 90 in a 3x9 grid. The banko game originates from Italy in the 16th centory and has since spread a across europe.</span>
+    <div class="demoBankoCard">
+        <BankoCard Plate="@bankoPlate"></BankoCard>
+    </div>
     <div class=" mb-3">
         <label for="FieldPassCode" class="form-label">Bingo Passcode:</label>
         <input id="FieldPassCode" type="text" class="form-control" placeholder="PassCode" @bind="BingoPassCode" />
@@ -28,7 +34,30 @@
 </form>
 
 
+<!-- Form for creating bingo cards -->
+<form class="bankoForm rounded-3 shadow">
+    <h2>Bingo (75-ball bingo)</h2>
+    <span>This is the American style bingo with numbers 1-75 arranged in a 5x5 grid with columns marked with the letters "B, I, N, G, O"</span>
+    <div class="demoBankoCard">
+    </div>
+    <span>Comming soon...</span>
+</form>
+
 @code {
     private string BingoPassCode { get; set; } = "ABCD";
     private int NumberOfCards { get; set; } = 10;
+
+    private BankoPlate bankoPlate;
+
+    public Index()
+    {
+        Random rand = new Random();
+        bankoPlate = new BankoPlate(rand.Next(1000), "demo");
+    }
+
+    protected override void OnInitialized()
+    {
+        bankoPlate.Create();
+        base.OnInitialized();
+    }
 }

@@ -2,22 +2,47 @@
 
 namespace BlinkoBlanko.Banko
 {
+    //-----------------------------------------------------------------------------------------
+    /// <summary>
+    /// The BankoPlate class represents a "Banko" card that contains 15 numbers from 1 to 90
+    /// distributed in a 3x9 grid, with 5 numbers per row 
+    /// </summary>
     public class BankoPlate
     {
         private int randomSeed = 0;
 
-        public List<List<PlateNumber?>> Numbers { get; set; } = new List<List<PlateNumber?>>();
+        /// <summary>
+        /// The numbers on the plate. First list is the row (9) and the second list is numbers in the column (3)
+        /// </summary>
+        public List<List<PlateNumber?>> Numbers { get; private set; } = new List<List<PlateNumber?>>();
 
-        public int PlateNumber { get; set; }
+        /// <summary>
+        /// The number of the banko plate
+        /// </summary>
+        public int PlateNumber { get; private set; }
 
-        public BankoPlate(int plateNumber, int seedNumber)
+        /// <summary>
+        /// The passcode used to generate the plate numbers
+        /// </summary>
+        public string PassCode { get; private set; }
+
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="plateNumber">the plate number</param>
+        /// <param name="passCode">passcode used to generate the numbers</param>
+        public BankoPlate(int plateNumber, string? passCode)
         {
             PlateNumber = plateNumber;
-            randomSeed = seedNumber + plateNumber;
+            PassCode = passCode ?? string.Empty;
+            randomSeed = PassCodeUtils.ConvertToSeedNumber(passCode) + plateNumber;
             ClearNumbers();
         }
 
-        public void ClearNumbers()
+        /// <summary>
+        /// Clear the numbers on the plate
+        /// </summary>
+        private void ClearNumbers()
         {
             Numbers.Clear();
             for (int i = 0; i < 3; i++)
@@ -29,6 +54,10 @@ namespace BlinkoBlanko.Banko
                 }
             }
         }
+
+        /// <summary>
+        /// Create the plate, generating the numbers using the passcode
+        /// </summary>
         public void Create()
         {
             Random random = new Random(randomSeed);
@@ -109,6 +138,10 @@ namespace BlinkoBlanko.Banko
             }
         }
 
+        /// <summary>
+        /// Mark all numbers on the card that have been drawn
+        /// </summary>
+        /// <param name="drawnNumbers">list of drawn numbers</param>
         internal void MarkDrawnNumbers(List<int> drawnNumbers)
         {
             foreach (var row in Numbers)

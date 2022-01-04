@@ -1,5 +1,5 @@
-﻿@page "/BankoCards"
-@page "/BankoCards/{PassCode}/{NumberOfCards:int}"
+﻿@page "/BankoCard"
+@page "/BankoCard/{PassCode}/{CardNumbers}"
 
 @using BlinkoBlanko.Banko
 
@@ -20,7 +20,7 @@
 
 @code {
     [Parameter]
-    public int? NumberOfCards { get; set; } = 50;
+    public string? CardNumbers { get; set; } = string.Empty;
 
     [Parameter]
     public string? PassCode { get; set; } = "1234";
@@ -29,6 +29,6 @@
 
     protected override void OnInitialized()
     {
-        BankoPlates.Generate(PassCode, NumberOfCards);
+        BankoPlates.ParseNumbers(PassCode, CardNumbers);
     }
 }

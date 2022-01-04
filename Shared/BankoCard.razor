@@ -2,28 +2,31 @@
 
 @if (Plate != null)
 {
-    <table class="table table-bordered table-fixed">
-        <thead>
-        </thead>
-        <tbody>
-            @foreach (var row in Plate.Numbers)
-            {
-                <tr>
-                    @foreach (var column in row)
-                    {
-                        <td style="width: 11.11%" class="@((column?.IsDrawn ?? false) ? "cardNumberDrawn" : "")">
-                            <h1 class="text-center">
-                                @(column?.Number.ToString() ?? string.Empty)
-                            </h1>
-                        </td>
-                    }
-                </tr>
-            }
-        </tbody>
-    </table>
-    <span class="justify-content-end">Bingo card #@Plate.PlateNumber</span>
-    <br />
-    <br />
+    <div class="bankoCard">
+        <table class="table table-bordered table-fixed">
+            <thead>
+            </thead>
+            <tbody>
+                @foreach (var row in Plate.Numbers)
+                {
+                    <tr>
+                        @foreach (var column in row)
+                        {
+                            <td style="width: 11.11%" class="@((column?.IsDrawn ?? false) ? "cardNumberDrawn" : "")">
+                                <h1 class="text-center">
+                                    @(column?.Number.ToString() ?? string.Empty)
+                                </h1>
+                            </td>
+                        }
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <div class="cardFooter">
+            <a class="link-secondary fst-italic" href="BankoCard/@Plate.PassCode/@Plate.PlateNumber">arnfada.github.io/BlingoBlanko/@Plate.PassCode/@Plate.PlateNumber</a>
+            <span class="justify-content-end">Card #@Plate.PlateNumber</span>
+        </div>
+    </div>
 }
 @code {
 

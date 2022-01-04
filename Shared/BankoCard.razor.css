@@ -2,5 +2,24 @@
 }
 
 .cardNumberDrawn {
-    background-color: palegreen;
+    background-color: red;
 }
+
+.bankoCard {
+    margin-bottom: 3.5rem;
+}
+
+    .bankoCard .table {
+        margin-bottom: 0;
+    }
+
+    .bankoCard .link-secondary {
+        opacity: 0.6;
+    }
+
+    .bankoCard .cardFooter {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        font-size: 0.8rem;
+    }

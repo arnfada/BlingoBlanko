@@ -1,0 +1,15 @@
+﻿body {
+}
+
+form {
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 3rem;
+}
+
+    form .demoBankoCard {
+        width: 65%;
+        align-self: center;
+        padding-top: 1rem;
+    }
