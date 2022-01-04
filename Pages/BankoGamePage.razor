@@ -14,41 +14,47 @@
                 <tbody>
                     @for (int i = 0; i < 9; i++)
                     {
-                            <tr>
+                        <tr>
                             @for (int j = 0; j < 10; j++)
                             {
-                                        <td style="">
-                                            <h1 class="text-center @(Game.Numbers[i*10+j].IsDrawn ? "numberIsDrawn" : "numberIsNotDrawn")">
+                                <td style="">
+                                    <h1 class="text-center @(Game.Numbers[i*10+j].IsDrawn ? "numberIsDrawn" : "numberIsNotDrawn")">
                                         @(Game.Numbers[i*10+j].Number)
-                                            </h1>
-                                        </td>
+                                    </h1>
+                                </td>
                             }
-                            </tr>
+                        </tr>
                     }
                 </tbody>
             </table>
         </div>
-        <div class="col-6" style="text-align:center;">
+        <div class="col-6 drawnNumbersArea" style="text-align:center;">
 
             @if (Game.DrawnNumbers.Count > 0)
             {
+                <div class="lastDrawnNumber border border-3 rounded-circle shadow">
                     <h1 class="lastDrawnNumber">@Game.DrawnNumbers.LastOrDefault()</h1>
-                    <span>Last 5 numbers:</span>
-                    <h3>
+                </div>
+                <span>Last 5 numbers:</span>
+                <div class="lastFiveDrawnNumbers">
                     @for (int i = 2; i <= 6; i++)
                     {
                         @if (Game.DrawnNumbers.Count >= i)
                         {
-                                        <span>@Game.DrawnNumbers[Game.DrawnNumbers.Count - i], </span>
+                            <div class="lastFiveDrawnNumber border border-3 rounded-circle shadow">
+                                <h3>@Game.DrawnNumbers[Game.DrawnNumbers.Count - i]</h3>
+                            </div>
                         }
                     }
-                    </h3>
+                </div>
             }
             else
             {
+                <div class="lastDrawnNumber border border-3 rounded-circle">
                     <h1> </h1>
-                    <span>Last 5 numbers:</span>
-                    <h3> </h3>
+                </div>
+                <span>Last 5 numbers:</span>
+                <h3> </h3>
             }
         </div>
     </div>

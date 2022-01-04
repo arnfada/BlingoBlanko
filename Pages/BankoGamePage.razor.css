@@ -5,9 +5,47 @@
     opacity: 0.15;
 }
 
-.lastDrawnNumber {
-    font-size: 20rem;
+.drawnNumbersArea {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    margin-bottom: 2rem;
 }
+
+.lastDrawnNumber {
+    width: 25rem;
+    height: 25rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 2rem;
+    margin-top: 2rem;
+}
+
+    .lastDrawnNumber h1 {
+        font-size: 18rem;
+        margin-bottom: 0rem;
+        margin-top: 0rem;
+    }
+
+.lastFiveDrawnNumbers {
+    display: flex;
+}
+
+.lastFiveDrawnNumber {
+    width: 6rem;
+    height: 6rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 1rem;
+}
+
+    .lastFiveDrawnNumber h3 {
+        font-size: 4rem;
+        margin-bottom: 0rem;
+        margin-top: 0rem;
+    }
 
 .operationsPanel {
     display: flex;
