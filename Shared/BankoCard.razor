@@ -33,6 +33,7 @@
     </div>
 }
 @code {
+    private DateTime lastTouch = DateTime.Now;
 
     /// <summary>
     /// The banko plate to display
@@ -61,6 +62,14 @@
         {
             return;
         }
+
+        DateTime now = DateTime.Now;
+
+        if ((now - lastTouch).TotalMilliseconds < 100)
+        {
+            return;
+        }
+        lastTouch = now;
 
         number.IsDrawn = !number.IsDrawn;
         StateHasChanged();
