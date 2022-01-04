@@ -14,7 +14,9 @@
                         @foreach (var column in row)
                         {
                             var local = column;
-                            <td style="width: 11.11%" class="@((column?.IsDrawn ?? false) ? "cardNumberDrawn" : "")" onclick="@(() => NumberCellClicked(local))">
+                            <td style="width: 11.11%" class="@((column?.IsDrawn ?? false) ? "cardNumberDrawn" : "")"
+                    onclick="@(() => NumberCellClicked(local))"
+                    ontouchend="@(()=> NumberCellClicked(local))">
                                 <h1 class="text-center">
                                     @(column?.Number.ToString() ?? string.Empty)
                                 </h1>
