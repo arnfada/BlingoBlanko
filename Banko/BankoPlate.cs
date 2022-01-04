@@ -14,7 +14,7 @@ namespace BlinkoBlanko.Banko
         /// <summary>
         /// The numbers on the plate. First list is the row (9) and the second list is numbers in the column (3)
         /// </summary>
-        public List<List<PlateNumber?>> Numbers { get; private set; } = new List<List<PlateNumber?>>();
+        public List<List<PlateNumber?>> Numbers { get; private set; } = new List<List<PlateNumber?>>(3);
 
         /// <summary>
         /// The number of the banko plate
@@ -90,6 +90,8 @@ namespace BlinkoBlanko.Banko
                 randomNumbers[column].Add(number);
             }
 
+            int[] rowCount = { 0, 0, 0 };
+
             // Populate the columns where there are already 3 numbers
             foreach (var fullList in randomNumbers.Where(i => i.Count == 3))
             {
@@ -99,42 +101,96 @@ namespace BlinkoBlanko.Banko
                     int number = fullList.Min();
                     Numbers[i][column] = new PlateNumber(number);
                     fullList.Remove(number);
-
+                    rowCount[i]++;
                 }
             }
 
-            // Assign numbers to the first two rows randomly
-            for (int row = 0; row < 2; row++)
+            // Place numbers in the smallest row first
+            foreach (var numberList in randomNumbers)
             {
-                while (Numbers[row].Count(i => i != null) < 5)
+                int column = randomNumbers.IndexOf(numberList);
+                while (numberList.Count > 0)
                 {
+                    int row = 0;
+                    for (int i = 0; i < 3; i++)
+                    {
+                        if (rowCount[i] < rowCount[row])
+                        {
+                            row = i;
+                        }
+                    }
 
-                    int column = random.Next(0, 9);
-                    if (Numbers[row][column] != null)
+                    int number = numberList.Min();
+
+                    if (numberList.Count > 1)
                     {
-                        // Cell already has value assigned
-                        continue;
+                        if (row == 2)
+                        {
+                            // Bigger number must be in third row
+                            number = numberList.Max();
+                        }
+                        else if (row == 0)
+                        {
+                            // Smaller number must be in first row
+                        }
+                        else if (rowCount[0] < rowCount[2])
+                        {
+                            // Third row is larger than first. Lets place the larger number in middle row causing the smaller number going in first row
+                            number = numberList.Max();
+                        }
+                        else
+                        {
+                            // First row is larger than firs, Lets pace the smaller number in the middle row causing the larger number going in the last row
+                        }
                     }
-                    if (randomNumbers[column].Count == 0)
-                    {
-                        // No more values from this column
-                        continue;
-                    }
-                    int number = randomNumbers[column].Min();
+
+                    numberList.Remove(number);
                     Numbers[row][column] = new PlateNumber(number);
-                    randomNumbers[column].Remove(number);
+                    rowCount[row]++;
                 }
             }
 
-            // populate the remaining 5 numbers to the last row
-            foreach (var remainingList in randomNumbers)
+            // Validation disabled due to increased performance cost. Enable if algorithm changes
+            // ValidateCard();
+        }
+
+        /// <summary>
+        /// Validate that the card is according to rules
+        /// </summary>
+        /// <exception cref="FormatException">Exception stating that the card is not valid</exception>
+        private void ValidateCard()
+        {
+            // Must have 15 numbers
+            if (Numbers.Sum(row => row.Count(cell => cell != null)) != 15)
             {
-                if (remainingList.Count == 0)
+                throw new FormatException($"card {PlateNumber} does not have 15 numbers");
+            }
+            // Each row mush have 5 numbers
+            foreach (var row in Numbers)
+            {
+                if (row.Count(cell => cell != null) != 5)
                 {
-                    continue;
+                    throw new FormatException($"Row in card {PlateNumber} does not have 5 numbers");
                 }
-                int column = (remainingList[0] - 1) / 10;
-                Numbers[2][column] = new PlateNumber(remainingList[0]);
+            }
+            // Each column must be ordered correctly
+            for (int col = 0; col < 9; col++)
+            {
+                int lastNumber = 0;
+                for (int row = 0; row < 2; row++)
+                {
+                    if (Numbers[row][col] == null)
+                    {
+                        continue;
+                    }
+
+
+                    if (lastNumber != 0 && Numbers[row][col].Number < lastNumber)
+                    {
+                        throw new FormatException($"Row in card {PlateNumber} does not have 5 numbers");
+                    }
+                    lastNumber = Numbers[row][col].Number;
+                }
             }
         }
 
