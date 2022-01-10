@@ -4,44 +4,75 @@
 
 <PageTitle>Index</PageTitle>
 
-<h1>A Bingo / Banko web app</h1>
+<div class="columns">
+    <div class="column is-full">
+        <h1>A Bingo / Banko web app</h1>
+        <p>
+            Welcome to the web app for creating bingo / banko cards and hosting a online bingo event. Start by creating bingo cards by selecting a unique pass code. This pass code can be used to host a bingo game and have bingo cards automatically validated.
+        </p>
+    </div>
+</div>
 
-<p>
-    Welcome to the web app for creating bingo / banko cards and hosting a online bingo event. Start by creating bingo cards by selecting a unique pass code. This pass code can be used to host a bingo game and have bingo cards automatically validated.
-</p>
+<div class="columns">
+    <div class="column is-full">
+        <!-- Form for creating banko cards -->
+        <div class="bankoForm box">
+            <h2>Banko (90-ball bingo)</h2>
+            <div class="block">
+                Banko is the European version of Bingo using numbers from 1 to 90 in a 3x9 grid. The banko game originates from Italy in the 16th centory and has since spread a across europe.
+            </div>
 
-<!-- Form for creating banko cards -->
-<form class="bankoForm rounded-3 shadow">
-    <h2>Banko (90-ball bingo)</h2>
-    <span>Banko is the European version of Bingo using numbers from 1 to 90 in a 3x9 grid. The banko game originates from Italy in the 16th centory and has since spread a across europe.</span>
-    <div class="demoBankoCard">
-        <BankoCard Plate="@bankoPlate" AllowSelectingCells=true></BankoCard>
+            <div class="columns is-mobile is-centered">
+                <div class="column is-four-fifths">
+                    <div class="demoBankoCard">
+                        <BankoCard Plate="@bankoPlate" AllowSelectingCells=true></BankoCard>
+                    </div>
+                </div>
+            </div>
+
+            <div class="field">
+                <label class="label">Unique pass-code:</label>
+                <div class="control">
+                    <input class="input" type="text" placeholder="PassCode" @bind="BingoPassCode" />
+                </div>
+                <p class="help">This pass-code is used to generate the numbers and must be same when generating cards or playing a game</p>
+            </div>
+            <div class="field">
+                <label class="label">Number of cards:</label>
+                <div class="control">
+                    <input class="input" type="number" placeholder="No. of cards" @bind="NumberOfCards" />
+                </div>
+            </div>
+            <div class="field is-grouped">
+                <p class="control">
+                    <a class="button is-primary" href="BankoCards/@BingoPassCode/@NumberOfCards">Create bingo cards</a>
+                </p>
+                <p class="control">
+                    <a class="button is-primary" href="BankoGame/@BingoPassCode/@NumberOfCards">Host a bingo game</a>
+                </p>
+            </div>
+        </div>
     </div>
-    <div class=" mb-3">
-        <label for="FieldPassCode" class="form-label">Bingo Passcode:</label>
-        <input id="FieldPassCode" type="text" class="form-control" placeholder="PassCode" @bind="BingoPassCode" />
+</div>
+
+<div class="columns">
+    <div class="column is-full">
+        <!-- Form for creating bingo cards -->
+        <div class="bankoForm box">
+            <h2>Bingo (75-ball bingo)</h2>
+            <span>This is the American style bingo with numbers 1-75 arranged in a 5x5 grid with columns marked with the letters "B, I, N, G, O"</span>
+            <div class="demoBankoCard">
+            </div>
+            <span>Comming soon...</span>
+        </div>
     </div>
-    <div class=" mb-3">
-        <label for="FieldNumberCards" class="form-label">NumberOfCards</label>
-        <input id="FieldNumberCards" type="number" class="form-control" placeholder="No. of cards" @bind="NumberOfCards" />
-    </div>
-    <div class=" mb-3">
-        <a class="btn btn-primary" href="BankoCards/@BingoPassCode/@NumberOfCards">Create bingo cards</a>
-    </div>
-    <div class=" mb-3">
-        <a class="btn btn-primary" href="BankoGame/@BingoPassCode/@NumberOfCards">Host a bingo game</a>
-    </div>
-</form>
+</div>
 
 
-<!-- Form for creating bingo cards -->
-<form class="bankoForm rounded-3 shadow">
-    <h2>Bingo (75-ball bingo)</h2>
-    <span>This is the American style bingo with numbers 1-75 arranged in a 5x5 grid with columns marked with the letters "B, I, N, G, O"</span>
-    <div class="demoBankoCard">
-    </div>
-    <span>Comming soon...</span>
-</form>
+
+
+
+
 
 @code {
     private string BingoPassCode { get; set; } = "ABCD";

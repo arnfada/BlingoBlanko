@@ -5,74 +5,76 @@
 
 <PageTitle>BingoGame</PageTitle>
 
-<div class="">
-    <div class="row ">
-        <div class="col-6">
-            <table class="table table-bordered table-fixed">
-                <thead>
-                </thead>
-                <tbody>
-                    @for (int i = 0; i < 9; i++)
-                    {
-                        <tr>
-                            @for (int j = 0; j < 10; j++)
-                            {
-                                <td style="">
-                                    <h1 class="text-center @(Game.Numbers[i*10+j].IsDrawn ? "numberIsDrawn" : "numberIsNotDrawn")">
-                                        @(Game.Numbers[i*10+j].Number)
-                                    </h1>
-                                </td>
-                            }
-                        </tr>
-                    }
-                </tbody>
-            </table>
+<div class="columns">
+    <div class="column is-half">
+        <table class="table numberTable is-bordered is-fullwidth has-text-centered">
+            <thead>
+            </thead>
+            <tbody>
+                @for (int i = 0; i < 10; i++)
+                {
+                    <tr>
+                        @for (int j = 0; j < 9; j++)
+                        {
+                            <td style="">
+                                <span class="text-center tableNumber @(Game.Numbers[i+j*10].IsDrawn ? "numberIsDrawn" : "numberIsNotDrawn")">
+                                    @(Game.Numbers[i+j*10].Number)
+                                </span>
+                            </td>
+                        }
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class="column is-half drawnNumbersArea is-flex has-text-centered">
+        <div class="lastDrawnNumber isNumberCircle">
+            <span class="">@(Game.DrawnNumbers.Count > 0 ? Game.DrawnNumbers.LastOrDefault().ToString() : string.Empty)</span>
         </div>
-        <div class="col-6 drawnNumbersArea" style="text-align:center;">
-
+        <span>Last 5 numbers:</span>
+        <div class="lastFiveDrawnNumbers">
             @if (Game.DrawnNumbers.Count > 0)
             {
-                <div class="lastDrawnNumber border border-3 rounded-circle shadow">
-                    <h1 class="lastDrawnNumber">@Game.DrawnNumbers.LastOrDefault()</h1>
-                </div>
-                <span>Last 5 numbers:</span>
-                <div class="lastFiveDrawnNumbers">
-                    @for (int i = 2; i <= 6; i++)
+                @for (int i = 2; i <= 6; i++)
+                {
+                    @if (Game.DrawnNumbers.Count >= i)
                     {
-                        @if (Game.DrawnNumbers.Count >= i)
-                        {
-                            <div class="lastFiveDrawnNumber border border-3 rounded-circle shadow">
-                                <h3>@Game.DrawnNumbers[Game.DrawnNumbers.Count - i]</h3>
-                            </div>
-                        }
+                        <div class="lastFiveDrawnNumber isNumberCircle">
+                            <span>@Game.DrawnNumbers[Game.DrawnNumbers.Count - i]</span>
+                        </div>
                     }
-                </div>
+                }
             }
-            else
-            {
-                <div class="lastDrawnNumber border border-3 rounded-circle">
-                    <h1> </h1>
-                </div>
-                <span>Last 5 numbers:</span>
-                <h3> </h3>
-            }
+        </div>
+
+        <div class="columns">
+            <div class="column">
+                <button class="button is-primary" @onclick="DrawNumber">Draw Number</button>
+            </div>
+            <div class="column">
+                <button class="button is-secondary" @onclick="ResetGame">Reset Game</button>
+            </div>
         </div>
     </div>
-    <div class="row ">
-        <div class="col-6">
-            <div class="input-group mb-3">
-                <input id="FieldPlateNumber" type="number" class="form-control" placeholder="Card number" @bind="checkBingoCardNumber" />
-                <div class="input-group-append">
-                    <button class="btn btn-primary" @onclick="CheckCard">Check</button>
-                    <button class="btn btn-secondary" @onclick="ClearCard">Clear</button>
-                </div>
+
+
+</div>
+<div class="columns">
+    <div class="column is-half">
+        <div class="field has-addons">
+            <div class="control is-expanded">
+                <input class="input" type="number" placeholder="Card number" @bind="checkBingoCardNumber">
             </div>
-            <BankoCard Plate=@checkBingoPlate />
+            <div class="control">
+                <button class="button is-info" @onclick="CheckCard">Check card</button>
+            </div>
+            <div class="control">
+                <button class="button is-secondary" @onclick="ClearCard">Clear</button>
+            </div>
         </div>
-        <div class="col-6 operationsPanel">
-            <button class="btn btn-primary" @onclick="DrawNumber">Draw Number</button>
-            <button class="btn btn-secondary" @onclick="ResetGame">Reset Game</button>
-        </div>
+        <BankoCard Plate=@checkBingoPlate />
+    </div>
+    <div class="column is-half">
     </div>
 </div>
 

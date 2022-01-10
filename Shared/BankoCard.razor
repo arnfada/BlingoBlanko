@@ -4,7 +4,7 @@
 @if (Plate != null)
 {
     <div class="bankoCard">
-        <table class="table table-bordered table-fixed">
+        <table class="table is-bordered is-fullwidth has-text-centered">
             <thead>
             </thead>
             <tbody>
@@ -17,18 +17,22 @@
                             <td style="width: 11.11%" class="@((column?.IsDrawn ?? false) ? "cardNumberDrawn" : "")"
                     onclick="@(() => NumberCellClicked(local))"
                     ontouchend="@(()=> NumberCellClicked(local))">
-                                <h1 class="text-center">
+                                <span class="is-size-6-mobile is-size-3-tablet is-size-1-widescreen has-text-weight-medium">
                                     @(column?.Number.ToString() ?? string.Empty)
-                                </h1>
+                                </span>
                             </td>
                         }
                     </tr>
                 }
             </tbody>
         </table>
-        <div class="cardFooter">
-            <a class="link-secondary fst-italic" href="BankoCard/@Plate.PassCode/@Plate.PlateNumber">arnfada.github.io/BlingoBlanko/@Plate.PassCode/@Plate.PlateNumber</a>
-            <span class="justify-content-end">Card #@Plate.PlateNumber</span>
+        <div class="cardFooter columns is-mobile is-size-7-mobile is-size-5-widescreen">
+            <div class="column">
+                <a class="has-text-grey is-italic" href="BankoCard/@Plate.PassCode/@Plate.PlateNumber">arnfada.github.io/BlingoBlanko/@Plate.PassCode/@Plate.PlateNumber</a>
+            </div>
+            <div class="column has-text-right has-text-weight-semibold">
+                <span class="">Card #@Plate.PlateNumber</span>
+            </div>
         </div>
     </div>
 }
