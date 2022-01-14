@@ -7,7 +7,7 @@
 
 <div class="columns">
     <div class="column is-half">
-        <table class="table numberTable is-bordered is-fullwidth has-text-centered">
+        <table class="table numberTable is-bordered is-fullwidth has-text-centered disable-text-selection">
             <thead>
             </thead>
             <tbody>
@@ -28,11 +28,11 @@
         </table>
     </div>
     <div class="column is-half drawnNumbersArea is-flex has-text-centered">
-        <div class="lastDrawnNumber isNumberCircle">
+        <div class="lastDrawnNumber isNumberCircle disable-text-selection">
             <span class="">@(Game.DrawnNumbers.Count > 0 ? Game.DrawnNumbers.LastOrDefault().ToString() : string.Empty)</span>
         </div>
         <span>Last 5 numbers:</span>
-        <div class="lastFiveDrawnNumbers">
+        <div class="lastFiveDrawnNumbers disable-text-selection">
             @if (Game.DrawnNumbers.Count > 0)
             {
                 @for (int i = 2; i <= 6; i++)
