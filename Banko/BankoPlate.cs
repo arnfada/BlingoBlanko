@@ -26,6 +26,27 @@ namespace BlinkoBlanko.Banko
         /// </summary>
         public string PassCode { get; private set; }
 
+        //-----------------------------------------------------------------------------------------
+        /// <summary>
+        /// Get if the plate has BANKO (ie. all 15 numbers)
+        /// </summary>
+        public bool HasBanko => DrawnRowCount[0] == 5 && DrawnRowCount[1] == 5 && DrawnRowCount[2] == 5;
+
+        //-----------------------------------------------------------------------------------------
+        /// <summary>
+        /// Get if the plate has at least two full rows
+        /// </summary>
+        public bool HasTwoRows => (DrawnRowCount[0] == 5 && DrawnRowCount[1] == 5) || (DrawnRowCount[0] == 5 && DrawnRowCount[2] == 5) || (DrawnRowCount[1] == 5 && DrawnRowCount[2] == 5);
+
+        //-----------------------------------------------------------------------------------------
+        /// <summary>
+        /// Get if the plate has at least one full row
+        /// </summary>
+        public bool HasOneRow => DrawnRowCount[0] == 5 || DrawnRowCount[1] == 5 || DrawnRowCount[2] == 5;
+
+        private int[] DrawnRowCount { get; set; } = { 0, 0, 0 };
+
+
         /// <summary>
         /// Constructor
         /// </summary>
@@ -185,29 +206,53 @@ namespace BlinkoBlanko.Banko
                     }
 
 
-                    if (lastNumber != 0 && Numbers[row][col].Number < lastNumber)
+                    if (lastNumber != 0 && Numbers[row][col]?.Number < lastNumber)
                     {
                         throw new FormatException($"Row in card {PlateNumber} does not have 5 numbers");
                     }
-                    lastNumber = Numbers[row][col].Number;
+                    lastNumber = Numbers[row][col]?.Number ?? -1;
                 }
             }
         }
 
+        //-----------------------------------------------------------------------------------------
         /// <summary>
-        /// Mark all numbers on the card that have been drawn
+        /// Mark a number on the card
         /// </summary>
-        /// <param name="drawnNumbers">list of drawn numbers</param>
-        internal void MarkDrawnNumbers(List<int> drawnNumbers)
+        /// <param name="drawnNumber">drawn number</param>
+        /// <returns>bool if a number is found on card</returns>
+        internal bool MarkDrawnNumber(int drawnNumber)
         {
-            foreach (var row in Numbers)
+            for (int row = 0; row < Numbers.Count; row++)
             {
-                foreach (var number in row)
+                foreach (var number in Numbers[row])
                 {
-                    if (number != null)
+                    if (number?.Number == drawnNumber)
                     {
-                        number.IsDrawn = drawnNumbers.Contains(number.Number);
+                        number.IsDrawn = true;
+                        DrawnRowCount[row]++;
+                        return true;
                     }
+                }
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// Reset all drawn numbers
+        /// </summary>
+        internal void ResetDrawnNumbers()
+        {
+            DrawnRowCount = new int[3] { 0, 0, 0 };
+            for (int row = 0; row < Numbers.Count; row++)
+            {
+                foreach (var number in Numbers[row])
+                {
+                    if (number == null)
+                    {
+                        continue;
+                    }
+                    number.IsDrawn = false;
                 }
             }
         }

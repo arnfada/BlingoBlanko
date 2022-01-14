@@ -6,7 +6,7 @@ namespace BlinkoBlanko.Banko
     {
         private Random random;
 
-        public BankoPlates BingoPlates { get; private set; }
+        public BankoPlates BankoPlates { get; private set; }
 
         public List<PlateNumber> Numbers { get; private set; }
 
@@ -14,18 +14,27 @@ namespace BlinkoBlanko.Banko
 
         public List<int> DrawnNumbers { get; private set; }
 
+        public List<BankoPlate> WinnersBanko { get; private set; }
+
+        public List<BankoPlate> WinnersTwoRows { get; private set; }
+
+        public List<BankoPlate> WinnersOneRows { get; private set; }
+
         public BankoGame()
         {
-            BingoPlates = new BankoPlates();
+            BankoPlates = new BankoPlates();
             Numbers = new List<PlateNumber>();
             AvailableNumbers = new List<int>();
             DrawnNumbers = new List<int>();
             random = new Random();
+            WinnersBanko = new List<BankoPlate>();
+            WinnersTwoRows = new List<BankoPlate>();
+            WinnersOneRows = new List<BankoPlate>();
         }
 
         public void Initialize(string? passCode, int? numberOfCards)
         {
-            BingoPlates.Generate(passCode, numberOfCards);
+            BankoPlates.Generate(passCode, numberOfCards);
 
             Reset();
         }
@@ -43,6 +52,12 @@ namespace BlinkoBlanko.Banko
                 AvailableNumbers.Add(i);
                 Numbers.Add(new PlateNumber(i));
             }
+
+            WinnersBanko.Clear();
+            WinnersTwoRows.Clear();
+            WinnersOneRows.Clear();
+
+            BankoPlates.ResetDrawnNumbers();
         }
 
         public void Draw()
@@ -58,18 +73,50 @@ namespace BlinkoBlanko.Banko
 
             AvailableNumbers.Remove(drawnNumber);
             DrawnNumbers.Add(drawnNumber);
+
+            // Mark drawn number on every card and check if they have winnings
+            foreach (var plate in BankoPlates.Plates)
+            {
+                bool numberMatched = plate.MarkDrawnNumber(drawnNumber);
+                if (!numberMatched)
+                {
+                    continue;
+                }
+
+                if (plate.HasBanko)
+                {
+                    if (!WinnersBanko.Contains(plate))
+                    {
+                        WinnersBanko.Add(plate);
+                        WinnersTwoRows.Remove(plate);
+                    }
+                }
+                else if (plate.HasTwoRows)
+                {
+                    if (!WinnersTwoRows.Contains(plate))
+                    {
+                        WinnersTwoRows.Add(plate);
+                        WinnersOneRows.Remove(plate);
+                    }
+                }
+                else if (plate.HasOneRow)
+                {
+                    if (!WinnersOneRows.Contains(plate))
+                    {
+                        WinnersOneRows.Add(plate);
+                    }
+                }
+            }
         }
 
         public BankoPlate? GetPlateByNumber(int plateNumber)
         {
-            BankoPlate? bingoPlate = BingoPlates.Plates.FirstOrDefault(p => p.PlateNumber == plateNumber);
+            BankoPlate? bingoPlate = BankoPlates.Plates.FirstOrDefault(p => p.PlateNumber == plateNumber);
 
             if (bingoPlate == null)
             {
                 return null;
             }
-
-            bingoPlate.MarkDrawnNumbers(DrawnNumbers);
             return bingoPlate;
         }
     }

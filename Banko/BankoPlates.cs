@@ -41,6 +41,17 @@
             }
         }
 
+        /// <summary>
+        /// Reset drawn numbers on plates
+        /// </summary>
+        internal void ResetDrawnNumbers()
+        {
+            foreach (var plate in Plates)
+            {
+                plate.ResetDrawnNumbers();
+            }
+        }
+
         //-----------------------------------------------------------------------------------------
         /// <summary>
         /// Parse a number string to only generate banko plates with specific numbers

@@ -52,6 +52,9 @@
                 <button class="button is-primary" @onclick="DrawNumber">Draw Number</button>
             </div>
             <div class="column">
+                <span class="tag is-light is-medium">@Game.DrawnNumbers.Count / 90</span>
+            </div>
+            <div class="column">
                 <button class="button is-secondary" @onclick="ResetGame">Reset Game</button>
             </div>
         </div>
@@ -74,7 +77,50 @@
         </div>
         <BankoCard Plate=@checkBingoPlate />
     </div>
-    <div class="column is-half">
+    <div class="column is-half has-text-centered">
+        <label class="checkbox">
+            <input type="checkbox" @bind-value="@showWinners"> Show winning cards
+        </label>
+        @if (showWinners)
+        {
+            @if (Game.WinnersBanko.Count > 0)
+            {
+                <div>
+                    <h1>Banko (Full-Card):</h1>
+                </div>
+                <div>
+                    @foreach (var fullPlate in Game.WinnersBanko)
+                    {
+                        <span>@fullPlate.PlateNumber, </span>
+                    }
+                </div>
+            }
+            @if (Game.WinnersTwoRows.Count > 0)
+            {
+                <div>
+                    <h3>Two rows</h3>
+                </div>
+                <div>
+                    @foreach (var twoRowPlate in Game.WinnersTwoRows)
+                    {
+                        <span>@twoRowPlate.PlateNumber, </span>
+                    }
+                </div>
+            }
+
+            @if (Game.WinnersOneRows.Count > 0)
+            {
+                <div>
+                    <h3>One row</h3>
+                </div>
+                <div>
+                    @foreach (var oneRowPlate in Game.WinnersOneRows)
+                    {
+                        <span>@oneRowPlate.PlateNumber, </span>
+                    }
+                </div>
+            }
+        }
     </div>
 </div>
 
@@ -89,6 +135,7 @@
 
     private int? checkBingoCardNumber = null;
     private BankoPlate? checkBingoPlate = null;
+    private bool showWinners = false;
 
 
     protected override void OnInitialized()
@@ -99,8 +146,6 @@
     private void DrawNumber()
     {
         Game.Draw();
-
-        UpdateCheckCard();
     }
     private async void ResetGame()
     {
@@ -123,13 +168,6 @@
         }
     }
 
-    private void UpdateCheckCard()
-    {
-        if (checkBingoPlate != null)
-        {
-            checkBingoPlate.MarkDrawnNumbers(Game.DrawnNumbers);
-        }
-    }
     private void ClearCard()
     {
         checkBingoPlate = null;
