@@ -2,6 +2,7 @@
 @page "/BankoGame/{PassCode}/{NumberOfCards:int}"
 @using BlinkoBlanko.Banko
 @inject IJSRuntime JsRuntime
+@inject Blazored.LocalStorage.ILocalStorageService localStorage
 
 <PageTitle>BingoGame</PageTitle>
 
@@ -137,16 +138,16 @@
     private BankoPlate? checkBingoPlate = null;
     private bool showWinners = false;
 
-
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
-        Game.Initialize(PassCode, NumberOfCards);
+        await Game.Initialize(PassCode, NumberOfCards, localStorage);
     }
 
-    private void DrawNumber()
+    private async Task DrawNumber()
     {
-        Game.Draw();
+        await Game.Draw();
     }
+
     private async void ResetGame()
     {
         bool confirmed = await JsRuntime.InvokeAsync<bool>("confirm", "Are you sure you want to reset the game?");

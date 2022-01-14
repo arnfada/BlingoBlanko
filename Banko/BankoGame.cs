@@ -1,10 +1,13 @@
-﻿using BlinkoBlanko.Common;
+﻿using Blazored.LocalStorage;
+using BlinkoBlanko.Common;
 
 namespace BlinkoBlanko.Banko
 {
     public class BankoGame
     {
         private Random random;
+        private string localStorageKey;
+        private ILocalStorageService? localStorage;
 
         public BankoPlates BankoPlates { get; private set; }
 
@@ -20,8 +23,11 @@ namespace BlinkoBlanko.Banko
 
         public List<BankoPlate> WinnersOneRows { get; private set; }
 
+        public string PassCode { get; private set; }
+
         public BankoGame()
         {
+            PassCode = string.Empty;
             BankoPlates = new BankoPlates();
             Numbers = new List<PlateNumber>();
             AvailableNumbers = new List<int>();
@@ -30,13 +36,27 @@ namespace BlinkoBlanko.Banko
             WinnersBanko = new List<BankoPlate>();
             WinnersTwoRows = new List<BankoPlate>();
             WinnersOneRows = new List<BankoPlate>();
+            localStorageKey = string.Empty;
         }
 
-        public void Initialize(string? passCode, int? numberOfCards)
+        public async Task Initialize(string? passCode, int? numberOfCards, ILocalStorageService localStorage)
         {
+            PassCode = passCode ?? "1234";
+            this.localStorage = localStorage;
             BankoPlates.Generate(passCode, numberOfCards);
-
             Reset();
+
+            localStorageKey = $"DrawnNumbers_{PassCode}";
+
+            if (await localStorage.ContainKeyAsync(localStorageKey))
+            {
+                List<int> storageNumbers = await localStorage.GetItemAsync<List<int>>(localStorageKey);
+
+                foreach (int number in storageNumbers)
+                {
+                    DrawNumber(number);
+                }
+            }
         }
 
         public void Reset()
@@ -60,7 +80,7 @@ namespace BlinkoBlanko.Banko
             BankoPlates.ResetDrawnNumbers();
         }
 
-        public void Draw()
+        public async Task Draw()
         {
             if (AvailableNumbers.Count == 0)
             {
@@ -69,6 +89,16 @@ namespace BlinkoBlanko.Banko
             int index = random.Next(AvailableNumbers.Count);
             int drawnNumber = AvailableNumbers[index];
 
+            DrawNumber(drawnNumber);
+
+            if (localStorage != null)
+            {
+                await localStorage.SetItemAsync<List<int>>(localStorageKey, DrawnNumbers);
+            }
+        }
+
+        private void DrawNumber(int drawnNumber)
+        {
             Numbers.First(i => i.Number == drawnNumber).IsDrawn = true;
 
             AvailableNumbers.Remove(drawnNumber);
