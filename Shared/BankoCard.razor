@@ -28,7 +28,7 @@
         </table>
         <div class="cardFooter columns is-mobile is-size-7-mobile is-size-5-widescreen">
             <div class="column">
-                <a class="has-text-grey is-italic" href="BankoCard/@Plate.PassCode/@Plate.PlateNumber">arnfada.github.io/BlingoBlanko/BankoCard/@Plate.PassCode/@Plate.PlateNumber</a>
+                <a class="has-text-grey is-italic" href="@cardLink">arnfada.github.io/BlingoBlanko/BankoCard/@Plate.PassCode/@Plate.PlateNumber</a>
             </div>
             <div class="column has-text-right has-text-weight-semibold">
                 <span class="">Card #@Plate.PlateNumber</span>
@@ -38,6 +38,8 @@
 }
 @code {
     private DateTime lastTouch = DateTime.Now;
+
+    private string? cardLink = null;
 
     /// <summary>
     /// The banko plate to display
@@ -50,6 +52,25 @@
     /// </summary>
     [Parameter]
     public bool AllowSelectingCells { get; set; } = false;
+
+    /// <summary>
+    /// Get or set if user can click on card link to navigate to the card
+    /// </summary>
+    [Parameter]
+    public bool DisableCardLink { get; set; } = false;
+
+    /// <summary>
+    /// Handle all parameters set on component
+    /// </summary>
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+
+        if (!DisableCardLink && Plate != null)
+        {
+            cardLink = $"BankoCard/{Plate.PassCode}/{Plate.PlateNumber}";
+        }
+    }
 
     /// <summary>
     /// Handle user clicking on bingo cell

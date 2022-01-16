@@ -9,7 +9,7 @@
 
 @for (int i = 0; i < BankoPlates.Plates.Count; i++)
 {
-    <BankoCard Plate=@BankoPlates.Plates[i] AllowSelectingCells=true />
+    <BankoCard Plate=@BankoPlates.Plates[i] AllowSelectingCells=true DisableCardLink=true />
 
     @if (i > 0 && (i + 1) % 4 == 0)
     {
