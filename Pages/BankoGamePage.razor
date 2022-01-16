@@ -50,7 +50,7 @@
 
         <div class="columns">
             <div class="column">
-                <button class="button is-primary" @onclick="DrawNumber">Draw Number</button>
+                <button class="button is-primary" @onclick="DrawNumber" disabled="@disableDrawButton">Draw Number</button>
             </div>
             <div class="column">
                 <span class="tag is-light is-medium">@Game.DrawnNumbers.Count / 90</span>
@@ -124,6 +124,35 @@
         }
     </div>
 </div>
+<div class="columns">
+    <!-- SETTINGS-->
+    <div class="column is-half">
+        <label class="checkbox">
+            <input type="checkbox" @bind-value="@showSettings"> Show settings
+        </label>
+        @if (showSettings)
+        {
+            <!-- Speed control-->
+            <div class="field is-horizontal">
+                <div class="field-label">Speed control</div>
+                <div class="field-body">
+                    <div class="field is-expanded">
+                        <div class="field has-addons">
+                            <p class="control is-expanded">
+                                <input class="input" type="number" placeholder="Draw button is disabled for X seconds" @bind-value="@speedControl">
+                            </p>
+                            <p class="control">
+                                <a class="button is-static">
+                                    sec.
+                                </a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
 
 @code {
     [Parameter]
@@ -137,6 +166,9 @@
     private int? checkBingoCardNumber = null;
     private BankoPlate? checkBingoPlate = null;
     private bool showWinners = false;
+    private bool showSettings = false;
+    private int? speedControl = null;
+    private bool disableDrawButton = false;
 
     protected override async Task OnInitializedAsync()
     {
@@ -146,6 +178,16 @@
     private async Task DrawNumber()
     {
         await Game.Draw();
+
+        // Disable draw button if speed control is enabled
+        if (speedControl.HasValue && speedControl.Value > 0)
+        {
+            disableDrawButton = true;
+            StateHasChanged();
+            await Task.Delay(speedControl.Value * 1000);
+            disableDrawButton = false;
+            StateHasChanged();
+        }
     }
 
     private async void ResetGame()
@@ -175,4 +217,4 @@
         checkBingoCardNumber = null;
     }
 
-}
+        }
