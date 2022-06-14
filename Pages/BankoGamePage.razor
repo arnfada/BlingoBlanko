@@ -12,15 +12,25 @@
             <thead>
             </thead>
             <tbody>
-                @for (int i = 0; i < 10; i++)
+                @for (int row = 0; row < 11; row++)
                 {
                     <tr>
-                        @for (int j = 0; j < 9; j++)
+                        @for (int col = 0; col < 9; col++)
                         {
                             <td style="">
-                                <span class="text-center tableNumber @(Game.Numbers[i+j*10].IsDrawn ? "numberIsDrawn" : "numberIsNotDrawn")">
-                                    @(Game.Numbers[i+j*10].Number)
-                                </span>
+                                @if (GridCellHasNumber(row, col))
+                                {
+                                    <span class="text-center tableNumber @(Game.Numbers[(row+col*10)-1].IsDrawn ? "numberIsDrawn" : "numberIsNotDrawn")">
+                                        @(Game.Numbers[(row+col*10)-1].Number)
+                                    </span>
+                                }
+                                else
+                                {
+                                    <span class="text-center tableNumber hiddenPlaceholderNumber">
+                                        00
+                                    </span>
+                                    
+                                }
                             </td>
                         }
                     </tr>
@@ -188,6 +198,23 @@
             disableDrawButton = false;
             StateHasChanged();
         }
+    }
+
+    private bool GridCellHasNumber(int row, int column)
+    {
+        // The last row should not have numbers except for 90.
+        if(row == 10 && column != 8)
+        {
+            return false;
+        }
+
+        // The first cell: (ie. number 0) should be empty
+        if(row == 0 && column == 0)
+        {
+            return false;
+        }
+
+        return true;
     }
 
     private async void ResetGame()
