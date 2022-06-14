@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BlinkoBlanko</title>
+    <base href="BlingoBlanko" />
+    <!--<link href="css/bootstrap/bootstrap.min.css" rel="stylesheet" />-->
+    <link href="css/bulma/bulma.min.css" rel="stylesheet" />
+    <link href="css/app.css" rel="stylesheet" />
+    <link href="BlinkoBlanko.styles.css" rel="stylesheet" />
+    <script type="text/javascript">
+        // Single Page Apps for GitHub Pages
+        // MIT License
+        // https://github.com/rafgraph/spa-github-pages
+        // This script checks to see if a redirect is present in the query string,
+        // converts it back into the correct url and adds it to the
+        // browser's history using window.history.replaceState(...),
+        // which won't cause the browser to attempt to load the new url.
+        // When the single page app is loaded further down in this file,
+        // the correct url will be waiting in the browser's history for
+        // the single page app to route accordingly.
+        (function (l) {
+            if (l.search[1] === '/') {
+                var decoded = l.search.slice(1).split('&').map(function (s) {
+                    return s.replace(/~and~/g, '&')
+                }).join('?');
+                window.history.replaceState(null, null,
+                    l.pathname.slice(0, -1) + decoded + l.hash
+                );
+            }
+        }(window.location))
+    </script>
+</head>
+
+<body>
+    <div id="app">Loading...</div>
+
+    <div id="blazor-error-ui">
+        An unhandled error has occurred.
+        <a href="" class="reload">Reload</a>
+        <a class="dismiss">🗙</a>
+    </div>
+    <!--prevent autostarting-->
+    <!-- https://waelkdouh.medium.com/how-to-detect-unsupported-browsers-under-a-blazor-webassembly-application-bc11ab0ee015 -->
+    <script src="_framework/blazor.webassembly.js" autostart="false"></script>
+
+    <script>
+
+        //check if webassembly is supported
+        const webassemblySupported = (function () {
+            try {
+                if (typeof WebAssembly === "object"
+                    && typeof WebAssembly.instantiate === "function") {
+                    const module = new WebAssembly.Module(
+                        Uint8Array.of(0x0, 0x61, 0x73, 0x6d,
+                            0x01, 0x00, 0x00, 0x00));
+                    if (module instanceof WebAssembly.Module)
+                        return new WebAssembly.Instance(module)
+                            instanceof WebAssembly.Instance;
+                }
+            } catch (e) {
+            }
+            return false;
+        })();
+
+        // Modern browsers e.g. Microsoft Edge
+        if (webassemblySupported) {
+            Blazor.start({});
+        }
+        // Older browsers e.g. IE11
+        else {
+            window.location = window.location + "BrowserNotSupported.html";
+        }
+
+    </script>
+</body>
+
+</html>
