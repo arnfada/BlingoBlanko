@@ -1,0 +1,256 @@
+/* /Pages/BankoCardPage.razor.rz.scp.css */
+body[b-4gisf67s81] {
+}
+
+@media print {
+    .pagebreak[b-4gisf67s81] {
+        page-break-before: always;
+    }
+
+    /* hide when printed */
+    .hide-when-printing[b-4gisf67s81] {
+        display: none;
+    }
+}
+/* /Pages/BankoCardsPage.razor.rz.scp.css */
+body[b-j34ol9xilr] {
+}
+
+@media print {
+    .pagebreak[b-j34ol9xilr] {
+        page-break-before: always;
+    }
+}
+/* /Pages/BankoGamePage.razor.rz.scp.css */
+body[b-ng8u14pmuh] {
+}
+
+.numberIsNotDrawn[b-ng8u14pmuh] {
+    opacity: 0.15;
+}
+
+.drawnNumbersArea[b-ng8u14pmuh] {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    align-content: space-around;
+}
+
+.lastDrawnNumber[b-ng8u14pmuh] {
+    width: 10rem;
+    height: 10rem;
+    margin-bottom: 0.5rem;
+    margin-top: 0.5rem;
+    font-weight: bold;
+    font-size: 5rem;
+}
+
+.lastFiveDrawnNumbers[b-ng8u14pmuh] {
+    display: flex;
+    justify-content: space-around;
+    width: 80%;
+    margin-top: 1rem;
+    margin-bottom: 2rem;
+}
+
+.lastFiveDrawnNumber[b-ng8u14pmuh] {
+    width: 3rem;
+    height: 3rem;
+    display: flex;
+    font-weight: bold;
+    margin-left: 0.3rem;
+    margin-right: 0.3rem;
+}
+
+.operationsPanel[b-ng8u14pmuh] {
+    /* display: flex;
+    align-items: flex-start;
+    justify-content: space-evenly;*/
+}
+
+.isNumberCircle[b-ng8u14pmuh] {
+    border: 3px solid;
+    border-radius: 50%;
+    box-shadow: 1px 5px 20px 0px #adadad;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.numberTable td[b-ng8u14pmuh] {
+    padding: 0.1rem;
+}
+
+.tableNumber[b-ng8u14pmuh] {
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.hiddenPlaceholderNumber[b-ng8u14pmuh] {
+    visibility: hidden;
+}
+
+@media screen and (min-width: 1024px) {
+    .tableNumber[b-ng8u14pmuh] {
+        font-size: 1.5rem;
+        font-weight: 600;
+    }
+
+    .lastDrawnNumber[b-ng8u14pmuh] {
+        font-size: 10rem;
+        width: 15rem;
+        height: 15rem;
+    }
+
+    .lastFiveDrawnNumber[b-ng8u14pmuh] {
+        font-size: 2rem;
+        width: 4rem;
+        height: 4rem;
+    }
+}
+
+@media screen and (min-width: 1408px) {
+    .tableNumber[b-ng8u14pmuh] {
+        font-size: 2rem;
+        font-weight: 600;
+    }
+
+    .numberTable td[b-ng8u14pmuh] {
+        padding: 0.5rem;
+    }
+
+
+    .lastDrawnNumber[b-ng8u14pmuh] {
+        font-size: 18rem;
+        width: 25rem;
+        height: 25rem;
+    }
+
+    .lastFiveDrawnNumber[b-ng8u14pmuh] {
+        font-size: 3rem;
+        width: 6rem;
+        height: 6rem;
+    }
+}
+/* /Pages/Index.razor.rz.scp.css */
+body[b-hzvoq5627t] {
+}
+
+/*form {
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 3rem;
+}
+
+    form .demoBankoCard {
+        width: 65%;
+        align-self: center;
+        padding-top: 1rem;
+    }*/
+/* /Shared/BankoCard.razor.rz.scp.css */
+body[b-28hgd8oemn] {
+}
+
+.cardNumberDrawn[b-28hgd8oemn] {
+    background-color: palegreen;
+}
+
+.bankoCard[b-28hgd8oemn] {
+    margin-bottom: 3rem;
+}
+
+    .bankoCard .table[b-28hgd8oemn] {
+        margin-bottom: 0;
+    }
+
+    .bankoCard td[b-28hgd8oemn] {
+        padding: 0.2rem;
+    }
+
+
+    .bankoCard .link-secondary[b-28hgd8oemn] {
+        opacity: 0.6;
+    }
+/* /Shared/MainLayout.razor.rz.scp.css */
+.page[b-utg1y8bolv] {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+main[b-utg1y8bolv] {
+    flex: 1;
+}
+
+.sidebar[b-utg1y8bolv] {
+    background-image: linear-gradient(180deg, rgb(5, 39, 103) 0%, #3a0647 70%);
+}
+
+.top-row[b-utg1y8bolv] {
+    background-color: #f7f7f7;
+    border-bottom: 1px solid #d6d5d5;
+    justify-content: flex-end;
+    height: 3.5rem;
+    display: flex;
+    align-items: center;
+}
+
+    .top-row[b-utg1y8bolv]  a, .top-row[b-utg1y8bolv]  .btn-link {
+        white-space: nowrap;
+        margin-left: 1.5rem;
+        text-decoration: none;
+    }
+
+        .top-row[b-utg1y8bolv]  a:hover, .top-row[b-utg1y8bolv]  .btn-link:hover {
+            text-decoration: underline;
+        }
+
+        .top-row[b-utg1y8bolv]  a:first-child {
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+@media (max-width: 640.98px) {
+    .top-row:not(.auth)[b-utg1y8bolv] {
+        display: none;
+    }
+
+    .top-row.auth[b-utg1y8bolv] {
+        justify-content: space-between;
+    }
+
+    .top-row[b-utg1y8bolv]  a, .top-row[b-utg1y8bolv]  .btn-link {
+        margin-left: 0;
+    }
+}
+
+@media (min-width: 641px) {
+    .page[b-utg1y8bolv] {
+        flex-direction: row;
+    }
+
+    .sidebar[b-utg1y8bolv] {
+        width: 250px;
+        height: 100vh;
+        position: sticky;
+        top: 0;
+    }
+
+    .top-row[b-utg1y8bolv] {
+        position: sticky;
+        top: 0;
+        z-index: 1;
+    }
+
+        .top-row.auth[b-utg1y8bolv]  a:first-child {
+            flex: 1;
+            text-align: right;
+            width: 0;
+        }
+
+    .top-row[b-utg1y8bolv], article[b-utg1y8bolv] {
+        padding-left: 2rem !important;
+        padding-right: 1.5rem !important;
+    }
+}
